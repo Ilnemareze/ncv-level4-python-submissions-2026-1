@@ -1,0 +1,17 @@
+STUDENT ATTENDANCE EARLY WARNING
+Accepted: 246 | Rejected: 4
+HIGH: 130
+MEDIUM: 68
+LOW: 48
+
+10 LOWEST ATTENDANCE RECORDS
+STU0051 Lerato Mahlangu: 20.0% (HIGH)
+STU0026 Neo Nkosi: 20.0% (HIGH)
+STU0007 Mpho Mokoena: 21.7% (HIGH)
+STU0158 Zanele Mahlangu: 21.7% (HIGH)
+STU0218 Zanele Dlamini: 21.7% (HIGH)
+STU0064 Kabelo Khumalo: 24.0% (HIGH)
+STU0231 Lerato Molefe: 24.0% (HIGH)
+STU0135 Ayanda Molefe: 25.0% (HIGH)
+STU0240 Thandi Masango: 25.0% (HIGH)
+STU0185 Ayanda Maseko: 27.3% (HIGH)

@@ -1,0 +1,4 @@
+Row 20: Quantity must be a positive whole number
+Row 83: Price must be zero or greater
+Row 143: Missing sale ID, product ID or category
+Row 206: Stock cannot be negative
