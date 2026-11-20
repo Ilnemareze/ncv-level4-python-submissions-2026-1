@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EWC Beginner Tech Foundations Course</title>
+<style>
+  :root {
+    --ewc-blue: #1B75BC;
+    --ewc-blue-dark: #0E4D82;
+    --ewc-blue-light: #EBF5FC;
+    --ewc-blue-mid: #3FA9F5;
+    --ewc-gold: #D49B27;
+    --ewc-gold-dark: #A67312;
+    --ewc-gold-light: #FDF7E7;
+    --ewc-gold-bright: #F2C14E;
+    --ewc-ink: #1A1F24;
+    --ewc-muted: #52606D;
+    --ewc-bg: #F6F8FA;
+    --ewc-card: #FFFFFF;
+    --ewc-border: #D9E2EC;
+    --success: #15803D;
+    --success-bg: #ECFDF5;
+    --danger: #B91C1C;
+    --danger-bg: #FEF2F2;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--ewc-bg);
+    color: var(--ewc-ink);
+    line-height: 1.6;
+    padding-bottom: 48px;
+  }
+
+  /* EWC Brand Header */
+  .brand-header {
+    background: var(--ewc-card);
+    border-bottom: 4px solid var(--ewc-gold);
+    box-shadow: 0 2px 10px rgba(14, 77, 130, 0.08);
+    padding: 16px 24px;
+  }
+
+  .brand-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ewc-svg-logo {
+    width: 195px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .course-badge-box {
+    border-left: 2px solid var(--ewc-border);
+    padding-left: 16px;
+  }
+
+  .course-kicker {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ewc-gold-dark);
+  }
+
+  .course-main-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--ewc-blue-dark);
+    line-height: 1.25;
+  }
+
+  /* Main Container */
+  .container {
+    max-width: 960px;
+    margin: 24px auto 0;
+    padding: 0 18px;
+  }
+
+  /* Lesson Switcher Bar */
+  .lesson-switcher {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .lesson-tab {
+    background: var(--ewc-card);
+    border: 2px solid var(--ewc-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .lesson-tab:hover:not(:disabled) {
+    border-color: var(--ewc-blue);
+  }
+
+  .lesson-tab.active {
+    border-color: var(--ewc-blue);
+    background: linear-gradient(135deg, var(--ewc-blue-light), #FFFFFF);
+    box-shadow: 0 4px 12px rgba(27, 117, 188, 0.12);
+  }
+
+  .lesson-tab:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background: #EEF2F6;
+  }
+
+  .lesson-tab-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ewc-gold-dark);
+    display: block;
+  }
+
+  .lesson-tab-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ewc-blue-dark);
+  }
+
+  .lesson-status-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .pill-unlocked {
+    background: var(--ewc-blue-light);
+    color: var(--ewc-blue-dark);
+  }
+
+  .pill-passed {
+    background: var(--success-bg);
+    color: var(--success);
+  }
+
+  .pill-locked {
+    background: var(--ewc-gold-light);
+    color: var(--ewc-gold-dark);
+  }
+
+  /* Progress & Page Tabs */
+  .progress-card {
+    background: var(--ewc-card);
+    border: 1px solid var(--ewc-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ewc-blue-dark);
+    margin-bottom: 8px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 10px;
+    background: #E2E8F0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ewc-blue), var(--ewc-gold));
+    width: 20%;
+    transition: width 0.3s ease;
+  }
+
+  .step-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .step-tab {
+    flex: 1 1 150px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--ewc-border);
+    background: #F8FAFC;
+    color: var(--ewc-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+  }
+
+  .step-tab:hover {
+    border-color: var(--ewc-blue);
+    color: var(--ewc-blue-dark);
+  }
+
+  .step-tab.active {
+    background: var(--ewc-blue);
+    color: #FFFFFF;
+    border-color: var(--ewc-blue-dark);
+  }
+
+  /* Page Card */
+  .page-card {
+    background: var(--ewc-card);
+    border: 1px solid var(--ewc-border);
+    border-top: 5px solid var(--ewc-blue);
+    border-radius: 14px;
+    padding: 26px 24px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .page-heading-tag {
+    display: inline-block;
+    background: var(--ewc-gold-light);
+    color: var(--ewc-gold-dark);
+    border: 1px solid #EED595;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  h2 {
+    font-size: 1.55rem;
+    color: var(--ewc-blue-dark);
+    margin-bottom: 12px;
+  }
+
+  p.lead {
+    font-size: 1.03rem;
+    color: var(--ewc-ink);
+    margin-bottom: 18px;
+  }
+
+  .analogy-box {
+    background: linear-gradient(135deg, var(--ewc-blue-light), #F8FBFF);
+    border-left: 4px solid var(--ewc-blue);
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .analogy-box strong {
+    color: var(--ewc-blue-dark);
+  }
+
+  .how-box {
+    background: var(--ewc-gold-light);
+    border-left: 4px solid var(--ewc-gold);
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .how-box strong {
+    color: var(--ewc-gold-dark);
+  }
+
+  .pros-cons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .pc-card {
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--ewc-border);
+  }
+
+  .pc-pros {
+    background: #F4FBF7;
+    border-top: 4px solid var(--success);
+  }
+
+  .pc-cons {
+    background: #FFF9F5;
+    border-top: 4px solid var(--ewc-gold);
+  }
+
+  .pc-card h3 {
+    font-size: 1.02rem;
+    margin-bottom: 10px;
+    color: var(--ewc-ink);
+  }
+
+  .pc-card ul {
+    padding-left: 18px;
+  }
+
+  .pc-card li {
+    margin-bottom: 8px;
+    font-size: 0.94rem;
+  }
+
+  /* Comparison Table */
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+  }
+
+  th {
+    background: var(--ewc-blue-dark);
+    color: #FFFFFF;
+    text-align: left;
+    padding: 12px 14px;
+  }
+
+  th:nth-child(3) {
+    background: var(--ewc-gold-dark);
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ewc-border);
+  }
+
+  tr:nth-child(even) td {
+    background: #F8FAFC;
+  }
+
+  /* Interactive Crash Lab (Lesson 1) */
+  .lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 14px;
+  }
+
+  .sim-panel {
+    border: 2px solid var(--ewc-border);
+    border-radius: 12px;
+    padding: 16px;
+    background: #FAFCFF;
+  }
+
+  .sim-panel h3 {
+    font-size: 1.05rem;
+    color: var(--ewc-blue-dark);
+    margin-bottom: 6px;
+  }
+
+  .sim-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .node-btn {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid var(--ewc-blue);
+    background: var(--ewc-blue-light);
+    color: var(--ewc-blue-dark);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .node-btn.hub {
+    border-color: var(--ewc-gold-dark);
+    background: var(--ewc-gold-light);
+    color: var(--ewc-gold-dark);
+  }
+
+  .node-btn.offline {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+    color: var(--danger);
+    text-decoration: line-through;
+  }
+
+  .sim-status {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    background: var(--success-bg);
+    color: var(--success);
+  }
+
+  .sim-status.down {
+    background: var(--danger-bg);
+    color: var(--danger);
+  }
+
+  /* Interactive Scenario Lab (Lesson 2) */
+  .scenario-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 18px;
+  }
+
+  .scen-btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid var(--ewc-blue);
+    background: #FFFFFF;
+    color: var(--ewc-blue-dark);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+
+  .scen-btn.active {
+    background: var(--ewc-blue);
+    color: #FFFFFF;
+  }
+
+  /* Quiz Styling */
+  .quiz-header-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: var(--ewc-blue-light);
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #C5E1F7;
+  }
+
+  .score-display {
+    font-weight: 800;
+    color: var(--ewc-blue-dark);
+    font-size: 1rem;
+  }
+
+  .btn-reset {
+    background: var(--ewc-gold);
+    color: #1A1F24;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+  }
+
+  .btn-reset:hover {
+    background: var(--ewc-gold-bright);
+  }
+
+  .q-card {
+    border: 1px solid var(--ewc-border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: #FFFFFF;
+  }
+
+  .q-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ewc-ink);
+    margin-bottom: 10px;
+  }
+
+  .hint-toggle {
+    background: none;
+    border: 1px dashed var(--ewc-gold-dark);
+    color: var(--ewc-gold-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .hint-text {
+    display: none;
+    background: var(--ewc-gold-light);
+    color: var(--ewc-ink);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.86rem;
+    margin-bottom: 10px;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .opt-btn {
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--ewc-border);
+    background: #F8FAFC;
+    color: var(--ewc-ink);
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--ewc-blue);
+    background: var(--ewc-blue-light);
+  }
+
+  .opt-btn.correct {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  .opt-btn.wrong {
+    background: var(--danger-bg);
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  .feedback-msg {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  /* Gate & Footer Navigation */
+  .gate-banner {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--ewc-gold-light);
+    border: 1px solid var(--ewc-gold);
+    color: var(--ewc-ink);
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .gate-banner.unlocked {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .nav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ewc-border);
+    gap: 12px;
+  }
+
+  .nav-btn {
+    padding: 11px 20px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+  }
+
+  .btn-back {
+    background: #E2E8F0;
+    color: var(--ewc-ink);
+  }
+
+  .btn-back:hover:not(:disabled) {
+    background: #CBD5E1;
+  }
+
+  .btn-back:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-next {
+    background: var(--ewc-blue);
+    color: #FFFFFF;
+  }
+
+  .btn-next:hover:not(:disabled) {
+    background: var(--ewc-blue-dark);
+  }
+
+  .btn-next:disabled {
+    background: #94A3B8;
+    cursor: not-allowed;
+  }
+
+  .btn-gold-action {
+    background: linear-gradient(135deg, var(--ewc-gold), var(--ewc-gold-dark));
+    color: #FFFFFF;
+  }
+
+  .btn-gold-action:disabled {
+    background: #CBD5E1;
+    color: #64748B;
+    cursor: not-allowed;
+  }
+
+  .completion-modal {
+    display: none;
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--ewc-blue-dark), var(--ewc-blue));
+    color: #FFFFFF;
+    text-align: center;
+    border: 3px solid var(--ewc-gold);
+  }
+
+  .completion-modal h3 {
+    color: var(--ewc-gold-bright);
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 640px) {
+    .lesson-switcher {
+      grid-template-columns: 1fr;
+    }
+    .course-badge-box {
+      border-left: none;
+      padding-left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="brand-header">
+  <div class="brand-container">
+    <div class="logo-lockup">
+      <!-- EWC Brand Logo SVG inspired by Ekurhuleni West TVET College -->
+      <svg class="ewc-svg-logo" viewBox="0 0 360 115" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ekurhuleni West TVET College Logo">
+        <defs>
+          <radialGradient id="ewcBlueSphere" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#7CC4FA"/>
+            <stop offset="55%" stop-color="#1B75BC"/>
+            <stop offset="100%" stop-color="#0B3B66"/>
+          </radialGradient>
+          <radialGradient id="ewcGoldSphere" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#F9DF8B"/>
+            <stop offset="55%" stop-color="#D49B27"/>
+            <stop offset="100%" stop-color="#8C5E08"/>
+          </radialGradient>
+        </defs>
+        <!-- Outer Swirl Arcs -->
+        <path d="M 55 12 A 48 48 0 0 0 18 92 A 42 42 0 0 1 52 20 Z" fill="#D49B27"/>
+        <path d="M 16 86 A 46 46 0 0 0 72 104 A 40 40 0 0 1 22 82 Z" fill="#3FA9F5"/>
+        <!-- Main Blue Sphere -->
+        <circle cx="56" cy="56" r="32" fill="url(#ewcBlueSphere)"/>
+        <!-- Orbiting Gold Spheres -->
+        <circle cx="83" cy="31" r="11" fill="url(#ewcGoldSphere)"/>
+        <circle cx="98" cy="48" r="7.5" fill="url(#ewcGoldSphere)"/>
+        <circle cx="72" cy="14" r="4.5" fill="url(#ewcGoldSphere)"/>
+        <circle cx="24" cy="68" r="5" fill="url(#ewcGoldSphere)"/>
+        <circle cx="44" cy="94" r="11.5" fill="url(#ewcGoldSphere)"/>
+        <!-- EWC Typography & Motto -->
+        <text x="112" y="66" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="54" fill="#1A1F24" letter-spacing="3">EWC</text>
+        <line x1="112" y1="73" x2="348" y2="73" stroke="#1A1F24" stroke-width="1.5"/>
+        <text x="112" y="88" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="13.5" fill="#1A1F24">Ekurhuleni West TVET College</text>
+        <text x="112" y="103" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="11.5" fill="#0E4D82">&ldquo;Empowering Beyond the Future&rdquo;</text>
+      </svg>
+
+      <div class="course-badge-box">
+        <div class="course-kicker">Digital Literacy &amp; IT Foundations</div>
+        <div class="course-main-title">Beginner Tech Systems Course</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Lesson Selector -->
+  <div class="lesson-switcher">
+    <button class="lesson-tab active" id="tab-lesson-1" onclick="switchLesson(1)">
+      <div>
+        <span class="lesson-tab-num">Lesson 1</span>
+        <span class="lesson-tab-title">Centralized vs. Decentralized</span>
+      </div>
+      <span class="lesson-status-pill pill-unlocked" id="pill-lesson-1">In Progress</span>
+    </button>
+
+    <button class="lesson-tab" id="tab-lesson-2" onclick="switchLesson(2)" disabled>
+      <div>
+        <span class="lesson-tab-num">Lesson 2</span>
+        <span class="lesson-tab-title">Open Source vs. Proprietary</span>
+      </div>
+      <span class="lesson-status-pill pill-locked" id="pill-lesson-2">Locked (Pass Quiz 1)</span>
+    </button>
+  </div>
+
+  <!-- Progress & Step Navigation -->
+  <div class="progress-card">
+    <div class="progress-meta">
+      <span id="progress-label">Lesson 1 — Step 1 of 5</span>
+      <span id="progress-percent">20%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="step-tabs" id="step-tabs"></div>
+  </div>
+
+  <!-- Active Page Content -->
+  <section class="page-card" id="page-content"></section>
+</main>
+
+<script>
+  const lessonsData = {
+    1: {
+      title: "Centralized vs. Decentralized Systems",
+      pages: [
+        {
+          tabLabel: "1. Centralized",
+          tag: "Lesson 1 • Heading 1 of 5",
+          title: "1. Centralized Systems",
+          html: `
+            <p class="lead">A <strong>centralized system</strong> puts one main computer, leader, or office in charge of the entire network. Everyone connects directly to that single center to get information or permission.</p>
+            <div class="analogy-box">
+              <strong>Everyday Example — A Classroom Teacher:</strong> Imagine a classroom where only the teacher holds the answer book. Every student must raise their hand and ask the teacher before moving to the next question.
+            </div>
+            <div class="how-box">
+              <strong>How It Works:</strong> Your phone or laptop (the <em>client</em>) sends a request to one main computer (the <em>central server</em>). That main server checks the rules, saves the data, and sends an answer back to you.
+            </div>
+            <div class="pros-cons">
+              <div class="pc-card pc-pros">
+                <h3>Advantages (Pros)</h3>
+                <ul>
+                  <li><strong>Fast decisions:</strong> Only one boss needs to approve an action, so things move quickly.</li>
+                  <li><strong>Easy to fix and update:</strong> Technicians only need to update software in one central place.</li>
+                  <li><strong>Clean records:</strong> Keeping all files in one master database prevents duplicate or mismatched data.</li>
+                </ul>
+              </div>
+              <div class="pc-card pc-cons">
+                <h3>Disadvantages (Cons)</h3>
+                <ul>
+                  <li><strong>Single point of failure:</strong> If the main server breaks or loses power, the whole system stops for everyone.</li>
+                  <li><strong>Traffic jams:</strong> Too many users at once can overload the single server and slow it down.</li>
+                  <li><strong>Total control by one owner:</strong> The central owner can block users or change rules without asking anyone.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          tabLabel: "2. Decentralized",
+          tag: "Lesson 1 • Heading 2 of 5",
+          title: "2. Decentralized Systems",
+          html: `
+            <p class="lead">A <strong>decentralized system</strong> spreads control and data across many independent computers (called <em>nodes</em>) instead of relying on one master boss.</p>
+            <div class="analogy-box">
+              <strong>Everyday Example — A Group Study Session:</strong> Instead of one teacher holding all the notes, every student in a study group has a copy of the study guide. If one student goes home early, the rest of the group keeps studying smoothly.
+            </div>
+            <div class="how-box">
+              <strong>How It Works:</strong> Multiple independent computers connect directly to each other. They share copies of the information and follow agreed-upon rules to check that new updates are valid.
+            </div>
+            <div class="pros-cons">
+              <div class="pc-card pc-pros">
+                <h3>Advantages (Pros)</h3>
+                <ul>
+                  <li><strong>Stays online during crashes:</strong> If one or two computers fail, the other computers keep the network running.</li>
+                  <li><strong>No single boss:</strong> Because power is shared, no single person can easily shut down or censor the system.</li>
+                  <li><strong>Shared workload:</strong> Many computers share the work, avoiding traffic bottlenecks at a single point.</li>
+                </ul>
+              </div>
+              <div class="pc-card pc-cons">
+                <h3>Disadvantages (Cons)</h3>
+                <ul>
+                  <li><strong>Slower agreement:</strong> Getting many separate computers to agree takes extra time and steps.</li>
+                  <li><strong>Harder to update:</strong> Changing rules requires convincing many independent operators to install the update.</li>
+                  <li><strong>Uses more storage:</strong> Saving copies of data on many machines uses more disk space and electricity.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          tabLabel: "3. Comparison",
+          tag: "Lesson 1 • Heading 3 of 5",
+          title: "3. Quick Side-by-Side Comparison",
+          html: `
+            <p class="lead">Use this side-by-side chart to compare how centralized and decentralized systems behave in everyday situations.</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Centralized System</th>
+                    <th>Decentralized System</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Who is in charge?</strong></td>
+                    <td>One central server or company</td>
+                    <td>Shared across many independent computers</td>
+                  </tr>
+                  <tr>
+                    <td><strong>What if one computer crashes?</strong></td>
+                    <td>If the main hub crashes, everything stops</td>
+                    <td>The rest of the network keeps working normally</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>Very fast (no group voting needed)</td>
+                    <td>Slower (nodes must check and agree)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Updates &amp; Fixes</strong></td>
+                    <td>Easy — updated in one main place</td>
+                    <td>Harder — requires group coordination</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Real-World Examples</strong></td>
+                    <td>Traditional banks, school student portals</td>
+                    <td>BitTorrent file sharing, public blockchains</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        },
+        {
+          tabLabel: "4. Crash Lab",
+          tag: "Lesson 1 • Heading 4 of 5",
+          title: "4. Interactive Crash Lab",
+          isCrashLab: true
+        },
+        {
+          tabLabel: "5. Lesson 1 Quiz",
+          tag: "Lesson 1 • Heading 5 of 5",
+          title: "5. Knowledge Check (Score 5/5 to Unlock Lesson 2)",
+          isQuiz: true
+        }
+      ],
+      questions: [
+        {
+          q: "What is the main feature of a centralized system?",
+          hint: "Think about who holds the master control in a classroom or traditional bank.",
+          options: [
+            { text: "One main server or authority controls the data and decisions.", correct: true },
+            { text: "Every user holds an equal vote on every single file change.", correct: false },
+            { text: "Computers are never allowed to send messages to each other.", correct: false },
+            { text: "There is no server anywhere in the network.", correct: false }
+          ]
+        },
+        {
+          q: "What happens in a centralized system if the single central server loses power?",
+          hint: "Remember the term 'single point of failure'.",
+          options: [
+            { text: "The whole system stops working until that main server is fixed.", correct: true },
+            { text: "Nothing happens because users do not need the central server.", correct: false },
+            { text: "The network automatically turns into a public blockchain.", correct: false },
+            { text: "Internet speed doubles for all connected users.", correct: false }
+          ]
+        },
+        {
+          q: "Why does a decentralized system stay online when one computer breaks?",
+          hint: "Think about the study group where multiple students have copies of the notes.",
+          options: [
+            { text: "Other independent computers still hold copies and keep the network running.", correct: true },
+            { text: "Broken computers are forbidden in decentralized networks.", correct: false },
+            { text: "A single secret backup boss takes over all control forever.", correct: false },
+            { text: "Decentralized systems do not store any data at all.", correct: false }
+          ]
+        },
+        {
+          q: "Which of these is a common disadvantage of a decentralized system?",
+          hint: "Getting a large group of people to agree takes more time than one boss deciding.",
+          options: [
+            { text: "It takes longer for independent computers to agree on updates.", correct: true },
+            { text: "One single owner can easily censor or delete everyone's files.", correct: false },
+            { text: "It always has a single point of failure in the middle.", correct: false },
+            { text: "Only one computer is allowed to connect at a time.", correct: false }
+          ]
+        },
+        {
+          q: "Which real-world example is a centralized system?",
+          hint: "Look for a service run by one company or institution's main database.",
+          options: [
+            { text: "A traditional bank's main customer account database.", correct: true },
+            { text: "A peer-to-peer BitTorrent file sharing network.", correct: false },
+            { text: "A public blockchain maintained by thousands of independent nodes.", correct: false },
+            { text: "A neighborhood rumor spread person-to-person with no leader.", correct: false }
+          ]
+        }
+      ]
+    },
+    2: {
+      title: "Open Source vs. Proprietary Software",
+      pages: [
+        {
+          tabLabel: "1. Open Source",
+          tag: "Lesson 2 • Heading 1 of 5",
+          title: "1. Open Source Software",
+          html: `
+            <p class="lead"><strong>Open source software</strong> is software whose human-readable instructions (called <em>source code</em>) are shared publicly so anyone can view, use, improve, and share them.</p>
+            <div class="analogy-box">
+              <strong>Everyday Example — A Community Cookbook Recipe:</strong> Imagine a recipe printed on a community board. Anyone can read the ingredients, bake the cake, add extra cinnamon to make it better, and share their improved recipe with neighbors.
+            </div>
+            <div class="how-box">
+              <strong>How It Works:</strong> Developers publish the source code online under an open license. Programmers around the world inspect the code, fix bugs together, and release free updates for everyone.
+            </div>
+            <div class="pros-cons">
+              <div class="pc-card pc-pros">
+                <h3>Advantages (Pros)</h3>
+                <ul>
+                  <li><strong>Usually free to use:</strong> Most open source programs cost nothing to download and install.</li>
+                  <li><strong>Transparent and trustworthy:</strong> Anyone can inspect the code to verify there are no hidden spy tools.</li>
+                  <li><strong>Customizable:</strong> Schools and businesses can modify the software to fit their exact needs.</li>
+                </ul>
+              </div>
+              <div class="pc-card pc-cons">
+                <h3>Disadvantages (Cons)</h3>
+                <ul>
+                  <li><strong>Less formal customer support:</strong> You often rely on community forums instead of a 24/7 paid helpdesk.</li>
+                  <li><strong>Steeper learning curve:</strong> Some open source tools are built by tech experts and feel less polished for beginners.</li>
+                  <li><strong>Abandoned projects:</strong> If volunteer developers lose interest, updates may slow down.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          tabLabel: "2. Proprietary",
+          tag: "Lesson 2 • Heading 2 of 5",
+          title: "2. Proprietary Software",
+          html: `
+            <p class="lead"><strong>Proprietary software</strong> (also called <em>closed source software</em>) is owned by a specific person or company. Only the owner can view or change the source code.</p>
+            <div class="analogy-box">
+              <strong>Everyday Example — A Secret Restaurant Sauce:</strong> You can buy a bottle of the restaurant's famous sauce and enjoy it at home, but the company keeps the secret ingredient list locked in a safe so nobody can copy or change it.
+            </div>
+            <div class="how-box">
+              <strong>How It Works:</strong> You buy a license or subscription to use the finished app. You are not allowed to open up the code, copy the program for friends, or alter how it works inside.
+            </div>
+            <div class="pros-cons">
+              <div class="pc-card pc-pros">
+                <h3>Advantages (Pros)</h3>
+                <ul>
+                  <li><strong>Dedicated customer support:</strong> Paying customers get official helpdesks, manuals, and training.</li>
+                  <li><strong>User-friendly design:</strong> Companies invest heavily in smooth, beginner-friendly screens and features.</li>
+                  <li><strong>Regular guaranteed updates:</strong> Paid teams work full-time to release security patches and new tools.</li>
+                </ul>
+              </div>
+              <div class="pc-card pc-cons">
+                <h3>Disadvantages (Cons)</h3>
+                <ul>
+                  <li><strong>Costs money:</strong> Often requires an upfront purchase or ongoing monthly subscription fees.</li>
+                  <li><strong>Vendor lock-in:</strong> You depend completely on one company; if they raise prices or cancel the app, you are stuck.</li>
+                  <li><strong>Hidden code:</strong> Users cannot inspect the code themselves to see how their data is handled.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          tabLabel: "3. Comparison",
+          tag: "Lesson 2 • Heading 3 of 5",
+          title: "3. Quick Side-by-Side Comparison",
+          html: `
+            <p class="lead">Compare how open source and proprietary software differ in cost, code access, and support.</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Open Source Software</th>
+                    <th>Proprietary Software</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Source Code Access</strong></td>
+                    <td>Public — anyone can read and edit it</td>
+                    <td>Private — locked and owned by the vendor</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Typical Cost</strong></td>
+                    <td>Usually free to download and share</td>
+                    <td>Paid license or monthly subscription</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Customization</strong></td>
+                    <td>Fully customizable by any programmer</td>
+                    <td>Restricted to the settings the company allows</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Customer Support</strong></td>
+                    <td>Community forums and volunteer guides</td>
+                    <td>Official company helpdesk and warranties</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Real-World Examples</strong></td>
+                    <td>Linux, LibreOffice, Firefox, VLC</td>
+                    <td>Microsoft Windows, Adobe Photoshop, macOS</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        },
+        {
+          tabLabel: "4. Scenario Lab",
+          tag: "Lesson 2 • Heading 4 of 5",
+          title: "4. Interactive Software Scenario Lab",
+          isScenarioLab: true
+        },
+        {
+          tabLabel: "5. Final Quiz",
+          tag: "Lesson 2 • Heading 5 of 5",
+          title: "5. Final Knowledge Check (Score 5/5 to Complete Course)",
+          isQuiz: true
+        }
+      ],
+      questions: [
+        {
+          q: "What does 'open source' mean in software?",
+          hint: "Think about the community cookbook recipe where everyone can see the ingredients.",
+          options: [
+            { text: "The source code is publicly visible so anyone can inspect, modify, and share it.", correct: true },
+            { text: "The software can only be used while connected to public Wi-Fi.", correct: false },
+            { text: "The program never needs any updates or bug fixes.", correct: false },
+            { text: "Only one secret company is allowed to read the instructions.", correct: false }
+          ]
+        },
+        {
+          q: "What is another common name for proprietary software?",
+          hint: "Because the code is kept private by its owner, it is the opposite of 'open source'.",
+          options: [
+            { text: "Closed source software", correct: true },
+            { text: "Public domain freeware", correct: false },
+            { text: "Community wiki code", correct: false },
+            { text: "Hardware firmware", correct: false }
+          ]
+        },
+        {
+          q: "Which of the following is a major advantage of proprietary software?",
+          hint: "Think about what you get when you pay a company for an official software license.",
+          options: [
+            { text: "Dedicated official customer support and polished user interfaces.", correct: true },
+            { text: "Legal permission to rewrite and sell the company's code as your own.", correct: false },
+            { text: "Guaranteed zero cost forever for every business.", correct: false },
+            { text: "Full access to the company's secret source code.", correct: false }
+          ]
+        },
+        {
+          q: "What is 'vendor lock-in' in proprietary software?",
+          hint: "What happens if a company stops updating an app or doubles its subscription price?",
+          options: [
+            { text: "Being stuck relying on one company for updates, pricing, and file access.", correct: true },
+            { text: "Forgetting your computer login password three times.", correct: false },
+            { text: "Locking your laptop inside a classroom cabinet.", correct: false },
+            { text: "Sharing your source code on a public website.", correct: false }
+          ]
+        },
+        {
+          q: "Which pair correctly matches an open source program and a proprietary program?",
+          hint: "LibreOffice and Linux are community-built; Microsoft Office and Photoshop are company-owned.",
+          options: [
+            { text: "Open Source: LibreOffice | Proprietary: Adobe Photoshop", correct: true },
+            { text: "Open Source: Microsoft Windows | Proprietary: Linux", correct: false },
+            { text: "Open Source: Adobe Photoshop | Proprietary: VLC Media Player", correct: false },
+            { text: "Open Source: Apple macOS | Proprietary: Mozilla Firefox", correct: false }
+          ]
+        }
+      ]
+    }
+  };
+
+  // App State
+  let currentLesson = 1;
+  let currentPage = 0;
+  let lesson1Passed = false;
+  let lesson2Passed = false;
+
+  // Crash Lab State
+  let centralNodes = [true, true, true, true]; // index 0 is central hub
+  let decentralNodes = [true, true, true, true];
+
+  // Scenario Lab State
+  let activeScenario = 0;
+  const scenarios = [
+    {
+      title: "Scenario A: A Security Bug Is Found",
+      openSource: "Thousands of programmers worldwide can spot the bug in the public code and submit a fix within hours.",
+      proprietary: "Users must wait for the owning company's internal team to acknowledge the bug and release an official patch."
+    },
+    {
+      title: "Scenario B: A School Needs a Custom Feature",
+      openSource: "The school's IT staff can edit the source code directly to add the exact feature students need for free.",
+      proprietary: "The school cannot edit the code and must ask the vendor, who may charge extra or say no."
+    },
+    {
+      title: "Scenario C: The Creator Stops Supporting the App",
+      openSource: "Any developer can copy the public code and keep maintaining the software for the community.",
+      proprietary: "Because the code is locked, nobody else can update it, and the software eventually becomes unusable."
+    }
+  ];
+
+  // Quiz State per Lesson
+  let quizState = {
+    1: { order: [], shuffledOptions: [], answers: {} },
+    2: { order: [], shuffledOptions: [], answers: {} }
+  };
+
+  function shuffleArray(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function initQuiz(lessonId, avoidPreviousOrder = false) {
+    const total = lessonsData[lessonId].questions.length;
+    const baseIndices = Array.from({ length: total }, (_, i) => i);
+    let newOrder = shuffleArray(baseIndices);
+
+    if (avoidPreviousOrder && quizState[lessonId].order.length === total) {
+      let attempts = 0;
+      while (newOrder.join(",") === quizState[lessonId].order.join(",") && attempts < 10) {
+        newOrder = shuffleArray(baseIndices);
+        attempts++;
+      }
+    }
+
+    const shuffledOpts = {};
+    newOrder.forEach((qIdx) => {
+      const optIndices = [0, 1, 2, 3];
+      shuffledOpts[qIdx] = shuffleArray(optIndices);
+    });
+
+    quizState[lessonId] = {
+      order: newOrder,
+      shuffledOptions: shuffledOpts,
+      answers: {}
+    };
+
+    if (lessonId === 1) {
+      lesson1Passed = false;
+      updateLessonPills();
+    } else {
+      lesson2Passed = false;
+      updateLessonPills();
+    }
+  }
+
+  function updateLessonPills() {
+    const tab1 = document.getElementById("tab-lesson-1");
+    const tab2 = document.getElementById("tab-lesson-2");
+    const pill1 = document.getElementById("pill-lesson-1");
+    const pill2 = document.getElementById("pill-lesson-2");
+
+    tab1.classList.toggle("active", currentLesson === 1);
+    tab2.classList.toggle("active", currentLesson === 2);
+
+    if (lesson1Passed) {
+      pill1.textContent = "Completed (5/5)";
+      pill1.className = "lesson-status-pill pill-passed";
+      tab2.disabled = false;
+      if (lesson2Passed) {
+        pill2.textContent = "Completed (5/5)";
+        pill2.className = "lesson-status-pill pill-passed";
+      } else {
+        pill2.textContent = "Unlocked";
+        pill2.className = "lesson-status-pill pill-unlocked";
+      }
+    } else {
+      pill1.textContent = "In Progress";
+      pill1.className = "lesson-status-pill pill-unlocked";
+      tab2.disabled = true;
+      pill2.textContent = "Locked (Pass Quiz 1)";
+      pill2.className = "lesson-status-pill pill-locked";
+    }
+  }
+
+  function switchLesson(lessonId) {
+    if (lessonId === 2 && !lesson1Passed) return;
+    currentLesson = lessonId;
+    currentPage = 0;
+    updateLessonPills();
+    renderPage();
+  }
+
+  function goToPage(pageIndex) {
+    currentPage = pageIndex;
+    renderPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function toggleNode(type, idx) {
+    if (type === "central") {
+      centralNodes[idx] = !centralNodes[idx];
+    } else {
+      decentralNodes[idx] = !decentralNodes[idx];
+    }
+    renderPage();
+  }
+
+  function selectScenario(idx) {
+    activeScenario = idx;
+    renderPage();
+  }
+
+  function toggleHint(qIdx) {
+    const el = document.getElementById(`hint-${qIdx}`);
+    if (el) {
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+  }
+
+  function selectOption(qIdx, origOptIdx) {
+    const state = quizState[currentLesson];
+    if (state.answers[qIdx] !== undefined) return; // lock once answered
+
+    state.answers[qIdx] = origOptIdx;
+
+    // Check score
+    const questions = lessonsData[currentLesson].questions;
+    let score = 0;
+    Object.keys(state.answers).forEach((k) => {
+      const qi = Number(k);
+      const chosenOrig = state.answers[qi];
+      if (questions[qi].options[chosenOrig].correct) {
+        score++;
+      }
+    });
+
+    if (score === questions.length) {
+      if (currentLesson === 1) lesson1Passed = true;
+      if (currentLesson === 2) lesson2Passed = true;
+    }
+
+    updateLessonPills();
+    renderPage();
+  }
+
+  function resetCurrentQuiz() {
+    initQuiz(currentLesson, true);
+    renderPage();
+  }
+
+  function completeCourse() {
+    const modal = document.getElementById("completion-modal");
+    if (modal) {
+      modal.style.display = "block";
+    }
+  }
+
+  function renderCrashLabHTML() {
+    const hubOnline = centralNodes[0];
+    const activeClients = centralNodes.slice(1).filter(Boolean).length;
+    let centralMsg = "";
+    let centralDown = false;
+
+    if (!hubOnline) {
+      centralMsg = "SYSTEM OFFLINE: The Central Hub crashed! Even though user devices are working, nobody can connect.";
+      centralDown = true;
+    } else if (activeClients === 0) {
+      centralMsg = "Central Hub is online, waiting for user devices to reconnect.";
+    } else {
+      centralMsg = `SYSTEM ONLINE: Central Hub is serving ${activeClients} active user device(s). Try clicking 'Central Hub' to crash it!`;
+    }
+
+    const activePeers = decentralNodes.filter(Boolean).length;
+    let decentralMsg = "";
+    let decentralDown = false;
+    if (activePeers === 0) {
+      decentralMsg = "ALL NODES OFFLINE: Every single computer was turned off.";
+      decentralDown = true;
+    } else if (activePeers === 4) {
+      decentralMsg = "SYSTEM ONLINE: All 4 peer nodes are sharing data. Click any node to simulate a crash!";
+    } else {
+      decentralMsg = `SYSTEM STILL ONLINE: ${4 - activePeers} node(s) crashed, but the remaining ${activePeers} peer node(s) keep the network running!`;
+    }
+
+    return `
+      <p class="lead">Click the buttons below to turn computers <strong>Online</strong> or <strong>Offline</strong> and see how each system handles failures.</p>
+      <div class="lab-grid">
+        <div class="sim-panel">
+          <h3>Centralized Network</h3>
+          <p style="font-size:0.86rem; color:var(--ewc-muted);">Click the Central Hub or any User Device:</p>
+          <div class="sim-nodes">
+            <button class="node-btn hub ${centralNodes[0] ? "" : "offline"}" onclick="toggleNode('central', 0)">
+              ${centralNodes[0] ? "Central Hub (ON)" : "Central Hub (CRASHED)"}
+            </button>
+            ${[1, 2, 3].map(i => `
+              <button class="node-btn ${centralNodes[i] ? "" : "offline"}" onclick="toggleNode('central', ${i})">
+                User ${i} (${centralNodes[i] ? "ON" : "OFF"})
+              </button>
+            `).join("")}
+          </div>
+          <div class="sim-status ${centralDown ? "down" : ""}">${centralMsg}</div>
+        </div>
+
+        <div class="sim-panel">
+          <h3>Decentralized Network</h3>
+          <p style="font-size:0.86rem; color:var(--ewc-muted);">Click any Peer Node to crash or restore it:</p>
+          <div class="sim-nodes">
+            ${[0, 1, 2, 3].map(i => `
+              <button class="node-btn ${decentralNodes[i] ? "" : "offline"}" onclick="toggleNode('decentral', ${i})">
+                Peer Node ${i + 1} (${decentralNodes[i] ? "ON" : "CRASHED"})
+              </button>
+            `).join("")}
+          </div>
+          <div class="sim-status ${decentralDown ? "down" : ""}">${decentralMsg}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderScenarioLabHTML() {
+    const current = scenarios[activeScenario];
+    return `
+      <p class="lead">Select a real-world situation below to compare how <strong>Open Source</strong> and <strong>Proprietary</strong> software respond.</p>
+      <div class="scenario-buttons">
+        ${scenarios.map((sc, idx) => `
+          <button class="scen-btn ${idx === activeScenario ? "active" : ""}" onclick="selectScenario(${idx})">
+            ${sc.title}
+          </button>
+        `).join("")}
+      </div>
+      <div class="pros-cons">
+        <div class="pc-card" style="border-top: 4px solid var(--ewc-blue); background: var(--ewc-blue-light);">
+          <h3 style="color: var(--ewc-blue-dark);">Open Source Response</h3>
+          <p style="font-size:0.95rem;">${current.openSource}</p>
+        </div>
+        <div class="pc-card" style="border-top: 4px solid var(--ewc-gold); background: var(--ewc-gold-light);">
+          <h3 style="color: var(--ewc-gold-dark);">Proprietary Response</h3>
+          <p style="font-size:0.95rem;">${current.proprietary}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuizHTML() {
+    const lesson = lessonsData[currentLesson];
+    const state = quizState[currentLesson];
+    const letters = ["A", "B", "C", "D"];
+
+    let answeredCount = Object.keys(state.answers).length;
+    let score = 0;
+    Object.keys(state.answers).forEach((k) => {
+      const qi = Number(k);
+      if (lesson.questions[qi].options[state.answers[qi]].correct) {
+        score++;
+      }
+    });
+
+    const allCorrect = score === lesson.questions.length;
+
+    let questionsHTML = state.order.map((qIdx, displayIdx) => {
+      const qObj = lesson.questions[qIdx];
+      const chosenOrig = state.answers[qIdx];
+      const isAnswered = chosenOrig !== undefined;
+      const optOrder = state.shuffledOptions[qIdx];
+
+      const optionsHTML = optOrder.map((origOptIdx, optPos) => {
+        const opt = qObj.options[origOptIdx];
+        let btnClass = "opt-btn";
+        if (isAnswered) {
+          if (origOptIdx === chosenOrig) {
+            btnClass += opt.correct ? " correct" : " wrong";
+          } else if (opt.correct) {
+            btnClass += " correct";
+          }
+        }
+        return `
+          <button class="${btnClass}" ${isAnswered ? "disabled" : ""} onclick="selectOption(${qIdx}, ${origOptIdx})">
+            <strong>${letters[optPos]}.</strong> ${opt.text}
+          </button>
+        `;
+      }).join("");
+
+      let feedbackHTML = "";
+      if (isAnswered) {
+        const gotItRight = qObj.options[chosenOrig].correct;
+        feedbackHTML = gotItRight
+          ? `<div class="feedback-msg" style="color: var(--success);">Correct! Well done.</div>`
+          : `<div class="feedback-msg" style="color: var(--danger);">Not quite — see the highlighted correct answer above.</div>`;
+      }
+
+      return `
+        <div class="q-card">
+          <div class="q-title">Question ${displayIdx + 1}: ${qObj.q}</div>
+          <button class="hint-toggle" onclick="toggleHint(${qIdx})">Need a Hint?</button>
+          <div class="hint-text" id="hint-${qIdx}">${qObj.hint}</div>
+          <div class="options-list">${optionsHTML}</div>
+          ${feedbackHTML}
+        </div>
+      `;
+    }).join("");
+
+    let gateMessage = "";
+    if (allCorrect) {
+      gateMessage = currentLesson === 1
+        ? `<div class="gate-banner unlocked">Perfect score (5/5)! Lesson 2 is now unlocked. Click <strong>Next Lesson</strong> below to continue.</div>`
+        : `<div class="gate-banner unlocked">Perfect score (5/5)! Click <strong>Complete Course</strong> below to finish.</div>`;
+    } else if (answeredCount === lesson.questions.length) {
+      gateMessage = `<div class="gate-banner">You scored ${score} out of 5. You need all 5 correct to continue—click <strong>Reset &amp; Shuffle Quiz</strong> to try again!</div>`;
+    } else {
+      gateMessage = `<div class="gate-banner">Answer all 5 questions correctly (5/5) to unlock the button at the bottom.</div>`;
+    }
+
+    return `
+      <div class="quiz-header-bar">
+        <div class="score-display">Score: ${score} / ${lesson.questions.length} (${answeredCount} answered)</div>
+        <button class="btn-reset" onclick="resetCurrentQuiz()">Reset &amp; Shuffle Quiz</button>
+      </div>
+      ${questionsHTML}
+      ${gateMessage}
+    `;
+  }
+
+  function renderPage() {
+    const lesson = lessonsData[currentLesson];
+    const page = lesson.pages[currentPage];
+    const totalPages = lesson.pages.length;
+
+    // Update Progress Bar
+    const pct = Math.round(((currentPage + 1) / totalPages) * 100);
+    document.getElementById("progress-label").textContent = `Lesson ${currentLesson}: ${lesson.title} — Step ${currentPage + 1} of ${totalPages}`;
+    document.getElementById("progress-percent").textContent = `${pct}%`;
+    document.getElementById("progress-fill").style.width = `${pct}%`;
+
+    // Update Step Tabs
+    const stepTabsEl = document.getElementById("step-tabs");
+    stepTabsEl.innerHTML = lesson.pages.map((p, idx) => `
+      <button class="step-tab ${idx === currentPage ? "active" : ""}" onclick="goToPage(${idx})">
+        ${p.tabLabel}
+      </button>
+    `).join("");
+
+    // Render Main Body
+    let innerBody = "";
+    if (page.isCrashLab) {
+      innerBody = renderCrashLabHTML();
+    } else if (page.isScenarioLab) {
+      innerBody = renderScenarioLabHTML();
+    } else if (page.isQuiz) {
+      innerBody = renderQuizHTML();
+    } else {
+      innerBody = page.html;
+    }
+
+    // Footer Buttons
+    const isFirstPage = currentPage === 0;
+    const isLastPage = currentPage === totalPages - 1;
+    let rightButtonHTML = "";
+
+    if (!isLastPage) {
+      rightButtonHTML = `<button class="nav-btn btn-next" onclick="goToPage(${currentPage + 1})">Next &rarr;</button>`;
+    } else if (currentLesson === 1) {
+      rightButtonHTML = `<button class="nav-btn btn-gold-action" ${lesson1Passed ? "" : "disabled"} onclick="switchLesson(2)">Next Lesson &rarr;</button>`;
+    } else {
+      rightButtonHTML = `<button class="nav-btn btn-gold-action" ${lesson2Passed ? "" : "disabled"} onclick="completeCourse()">Complete Course &#10003;</button>`;
+    }
+
+    const completionHTML = currentLesson === 2 && isLastPage ? `
+      <div class="completion-modal" id="completion-modal">
+        <h3>Congratulations! Course Completed!</h3>
+        <p>You scored 5/5 on both Lesson 1 (Centralized vs. Decentralized Systems) and Lesson 2 (Open Source vs. Proprietary Software).</p>
+        <p style="margin-top:8px; font-size:0.9rem; opacity:0.9;">Ekurhuleni West TVET College — &ldquo;Empowering Beyond the Future&rdquo;</p>
+      </div>
+    ` : "";
+
+    document.getElementById("page-content").innerHTML = `
+      <span class="page-heading-tag">${page.tag}</span>
+      <h2>${page.title}</h2>
+      ${innerBody}
+      ${completionHTML}
+      <div class="nav-footer">
+        <button class="nav-btn btn-back" ${isFirstPage ? "disabled" : ""} onclick="goToPage(${currentPage - 1})">&larr; Back</button>
+        ${rightButtonHTML}
+      </div>
+    `;
+  }
+
+  // Initialize Both Quizzes and Render First Page
+  initQuiz(1, false);
+  initQuiz(2, false);
+  updateLessonPills();
+  renderPage();
+</script>
+</body>
+</html>
